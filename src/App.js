@@ -1,22 +1,41 @@
-import logo from './logo.svg';
+
 import './App.css';
 
+import { useQuery } from 'react-query'
+
 function App() {
+  const { isLoading, error, data } = useQuery('repoData', () =>
+    fetch('https://api.quotable.io/random').then(res =>
+      res.json()
+    )
+  )
+
+  if (isLoading) return (
+
+    <div className="App">
+      <header className="App-header">
+
+
+      </header>
+    </div>
+
+  )
+
+  if (error) return 'An error has occurred: ' + error.message
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+
+        <div>
+          {data.content}
+
+        </div>
+        <div>
+          -{data.author}-
+        </div>
+
+
       </header>
     </div>
   );
